@@ -1,0 +1,22 @@
+<div class="col-lg-8 mx-auto mt-4">
+  <% @hotels.each do |hotel| %>
+  <div class="card mt-4">
+    <div class="row">
+      <div class="col-lg-4">
+        <%= image_tag hotel.image_url, class: "img-fluid rounded mx-auto d-block" %>
+      </div>
+      <div class="col-lg-8">
+        <h3 class="mt-3"><%= hotel.name %></h3>
+        <%= link_to "View Hotel", hotel_path(hotel), class: "btn btn-outline-primary" %>
+        <div class="d-grid gap-2 d-md-block mt-3" id="hotel_<%= hotel.id %>">
+          <% if admin_user_signed_in? && hotel.likes.exists?(like_by_id: current_admin_user.id) %> 
+            <button type="button" class="btn btn-danger"><i class="bi-emoji-heart-eyes-fill"></i> I love this hotel</button>
+          <% else %>
+            <%= link_to "Like this hotel", likes_path(likeable: hotel, likeable_type: 'hotel'), class: 'btn btn-primary', data: { turbo_method: :post } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

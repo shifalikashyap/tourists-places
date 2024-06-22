@@ -1,0 +1,5 @@
+<div class="d-grid gap-2 d-md-block mt-3" id="<%= likeable.class.to_s.downcase %>_<%= likeable.id %>">
+  <button type="button" class="btn btn-danger"><i class="bi-emoji-heart-eyes-fill"></i> I love this <%= likeable.class.to_s.downcase %></button>
+  <p class="lead"> You and <%= pluralize(likeable.likes.where.not(like_by_id: current_admin_user.id).count, 'other person') %> Liked this place </p>
+</div>
+

@@ -1,0 +1,149 @@
+<div class="col-lg-8 mt-2">          
+  <% if @place.image_url.present? %>
+  <%= image_tag @place.image_url, class: "img-fluid" %>
+  <% end %>
+  <h1 class="mt-3 mb-5"><%= @place.place_title %></h1>
+
+<!--   <div class="row">
+    <#% @place.images.each do |image| %>
+    <div class="col-lg-4">
+    <#% if @place.images.present? %>
+      <#%= image_tag image, class: "img-fluid" %>
+      <#% end %>
+      </div>
+    <#% end %>
+  </div> -->
+  <% if @place.images.count > 3 %>
+    <div class="row" id="image-list-<%= @place.id %>">
+      <% @place.images.first(3).each do |image| %>
+        <div class="col-lg-4">
+          <%= image_tag image, class: "img-fluid" %>
+        </div>
+      <% end %>
+    </div>
+    <%= link_to 'View All', load_place_images_admin_place_path(@place), data: { controller: "images-list" } %>
+  <% else %>
+    <div class="row" id="image-list-<%= @place.id %>">
+      <% @place.images.each do |image| %>
+        <div class="col-lg-4">
+          <%= image_tag image, class: "img-fluid" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+  <div id="distance"></div>
+  <div class="mt-4">  
+    <%= @place.description.html_safe %>
+  </div>
+</div>
+
+<div class="col-lg-4">
+  <!-- to show hotel for destination -->
+  
+  <% if @hotels_from_same_place.present? %>
+
+  <div class="card mt-5" style="background-color: #2e6b5c;">
+    <div class="card-body">
+      <div class="row">
+        <p class="fs-1 lh-lg" style="color: white;"><strong>The Best Travel Places</strong></p>
+        <!-- below is the way to use url parameters in the request. When you send the following request it will go to the /hotels path and take the parameter like {city: 'Some value of city'} -->
+        <!-- URL parameters are usually passed as the query string in the url. http://localhost:3000/hotels?city=baroda, in this url anything after the ? mark represents the query parameters. And you can separate the query string from url by the question mark.  -->
+        <div class="text-center">
+          <%= link_to 'View Hotel', hotels_path(city: @place.city), target: "_blank", class:"btn btn-outline-warning btn-lg" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+
+  <!-- to show other from same location -->
+
+
+  <% if @places_from_same_state.present? %>
+
+  <div class="card mt-5" style="background-color: #73baab;">
+    <h3 class="mx-3 mt-3">Nearby Places</h3>
+    <% @places_from_same_state.each do |place| %>
+    <hr class="my-3" style="margin-left: 5px; margin-right: 5px;">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <% if place.image_url.present? %>
+          <%= image_tag place.image_url, class: "img-fluid rounded mx-auto d-block" %>
+          <% end %>
+        </div>
+        <div class="col-md-6"><!-- 
+          <p><strong><#%= place.place_title %></strong></p> -->
+            <p><strong><%= link_to place.place_title, admin_place_path(place), style: "color: black;" %></strong></p>
+            <!-- <h6 class="mt-2"><#%= link_to "View Place", place_path(place), class: "btn btn-link" %></h6> -->
+            </div>
+          </div>
+        </div>
+        <% end %> 
+      </div> 
+
+      <% end %>
+
+<!-- 
+  <#% @places_from_same_state.each do |place| %>
+  <div class="card mt-2">
+    <div class="row">        
+      <#%= image_tag place.image_url, class: "img-fluid" %>
+      <h6 class="text-center mt-2"><#%= place.place_title %></h6>
+      <div class="text-center mb-2">
+        <#%= link_to "View Place", place_path(place), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+  <#% end %>
+  </div> -->
+
+
+
+
+  <!-- JavaScript to calculate and display distance -->
+  <script>
+  // Function to calculate distance between two points using Haversine formula
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const earthRadius = {
+      km: 6371, // kilometers
+      mi: 3959 // miles
+    };
+
+    const deltaLat = (lat2 - lat1) * Math.PI / 180;
+    const deltaLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius.km * c; // Change earthRadius.km to earthRadius.mi for miles
+
+    return distance;
+  }
+
+  // Function to get user's current location
+  function getUserLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showDistance);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  // Function to display distance
+  function showDistance(position) {
+    const userLatitude = position.coords.latitude;
+    const userLongitude = position.coords.longitude;
+    const placeLatitude = <%= @place.latitude %>;
+    const placeLongitude = <%= @place.longitude %>;
+    const distance = calculateDistance(userLatitude, userLongitude, placeLatitude, placeLongitude);
+
+    document.getElementById("distance").innerText = "Distance from your location: " + distance.toFixed(2) + " km";
+  }
+
+  // Call the function to get user's location
+  getUserLocation();
+</script>

@@ -1,0 +1,7 @@
+(likeable: place, like_by_id: current_admin_user.id)
+
+
+likeable - polymorphic (dynamically associated with both place and hotel)
+place - model
+
+like_by_id - like id 

@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="mx-auto text-center mt-5">
+    <%= search_form_for @q, url: :admin_places do |f| %>
+    <%#= f.label :Search %>
+    <%= f.search_field :name_or_city_or_state_cont, placeholder: "Enter place here"  %>
+    <%= f.submit %>
+    <% end %>
+  </div>
+
+  <div class="col-lg-8 mx-auto mt-4">
+    <% @places.each do |place| %>
+    <div class="card mt-4">
+      <div class="row">
+        <div class="col-lg-4">
+          <% if place.image_url.attached? %>
+            <%= image_tag place.image_url, class: "img-fluid" %>
+          <% end %>
+        </div>
+        <div class="col-lg-8">
+          <h3 class="mt-3"><%= place.place_title %></h3>
+          <%= link_to "View Place", admin_place_path(place), class: "btn btn-outline-primary" %>
+          <%= link_to "Edit Place", edit_admin_place_path(place), class: "btn btn-outline-primary" %>
+          <%= link_to "Destroy Place", admin_place_path(place), data: { turbo_method: :delete } , class: "btn btn-outline-primary" %>
+<!--           <div class="d-grid gap-2 d-md-block mt-3" id="place_<#%= place.id %>">
+            <#% if admin_user_signed_in? && place.likes.exists?(like_by_id: current_admin_user.id) %> 
+              <button type="button" class="btn btn-danger"><i class="bi-emoji-heart-eyes-fill"></i> I love this place</button>
+              <p class="lead"> You and <#%= pluralize(place.likes.where.not(like_by_id: current_admin_user.id).count, 'other person') %> Liked this place </p>
+            <#% else %>
+              <#%= link_to "Like this place", likes_path(likeable: place, likeable_type: 'place'), class: 'btn btn-primary', data: { turbo_method: :post } %>
+              <p class="lead"><#%= pluralize(place.likes.count, 'person') %> Liked this place </p>
+            <#% end %>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+</div>  

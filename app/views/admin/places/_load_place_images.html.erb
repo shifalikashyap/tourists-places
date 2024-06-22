@@ -1,0 +1,7 @@
+<div class="row" id="image-list-<%= place.id %>">
+  <% place.images.each do |image| %>
+    <div class="col-lg-4">
+      <%= image_tag image, class: "img-fluid" %>
+    </div>
+  <% end %>
+</div>
