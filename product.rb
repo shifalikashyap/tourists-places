@@ -9,6 +9,10 @@ class Product
     puts @price
   end
 
+  def price=(price)
+    @price = price 
+  end
+
   def color
     puts @color
   end
@@ -21,6 +25,18 @@ end
 
 
 p1 = Product.new('15','Red', '14kg')
-p1.weight
+# p1.weight
+# p1.price
+# p1.color
+
+
+p1.price = "20"
+
 p1.price
-p1.color
+
+
+
+
+#getter_Setter method
+
+
