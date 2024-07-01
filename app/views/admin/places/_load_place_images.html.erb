@@ -1,7 +1,8 @@
 <div class="row" id="image-list-<%= place.id %>">
-  <% place.images.each do |image| %>
+  <% images.each do |image| %>
     <div class="col-lg-4">
       <%= image_tag image, class: "img-fluid" %>
     </div>
   <% end %>
+  <%= link_to 'View Less', load_place_images_admin_place_path(@place, image_limit: 3), data: { controller: "images-list" } %>
 </div>

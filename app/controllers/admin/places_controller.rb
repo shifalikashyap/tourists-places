@@ -47,11 +47,23 @@ class Admin::PlacesController < ApplicationController
 
   def load_place_images
     @place = Place.find(params[:id])
-    @place.images
+    if params[:image_limit].present?
+      @images = @place.images.last(params[:image_limit])
+    else
+      @images = @place.images
+    end
 
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.replace("image-list-#{@place.id}" , 
         partial: "admin/places/load_place_images", 
+        locals: { place: @place, images: @images }) } 
+    end
+  end
+
+  def load_min_images
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("image-list-#{@place.id}" , 
+        partial: "admin/places/load_min_images", 
         locals: { place: @place }) } 
     end
   end
