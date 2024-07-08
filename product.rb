@@ -40,3 +40,6 @@ p1.price
 #getter_Setter method
 
 
+#getter means to retrive or fetch vaue 
+#setter means to change or update the value
+
