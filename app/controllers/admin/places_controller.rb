@@ -60,13 +60,13 @@ class Admin::PlacesController < ApplicationController
     end
   end
 
-  def load_min_images
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("image-list-#{@place.id}" , 
-        partial: "admin/places/load_min_images", 
-        locals: { place: @place }) } 
-    end
-  end
+  # def load_min_images
+  #   respond_to do |format|
+  #     format.turbo_stream { render turbo_stream: turbo_stream.replace("image-list-#{@place.id}" , 
+  #       partial: "admin/places/load_min_images", 
+  #       locals: { place: @place }) } 
+  #   end
+  # end
 
 
   private

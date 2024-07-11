@@ -1,6 +1,7 @@
 class Product
-  attr_reader :price, :color, :weight
-  attr_writer :price, :color, :weight
+  # attr_reader :price, :color, :weight
+  # attr_writer :price, :color, :weight
+  attr_accessor :price , :color, :weight
   def initialize(price, color, weight)
      @price = price
      @color = color
@@ -47,4 +48,5 @@ puts p1.weight
 #getter means to retrive or fetch vaue  or attr_reader
 #setter means to change or update the value or attr_writer
 #both method always used in inside the class otherwise it shows nomethoderror
+#attr_accessor method is for both reader or writer
 
